@@ -1,20 +1,5 @@
-# See https://www.dartlang.org/guides/libraries/private-files
-
-# Files and directories created by pub
-.dart_tool/
-.packages
-.pub/
-build/
-# If you're building an application, you may want to check-in your pubspec.lock
-pubspec.lock
-
-# Directory created by dartdoc
-# If you don't generate documentation locally you can remove this line.
-doc/api/
-
 # Miscellaneous
 *.class
-*.lock
 *.log
 *.pyc
 *.swp
@@ -33,22 +18,6 @@ doc/api/
 # Visual Studio Code related
 .vscode/
 
-# Flutter repo-specific
-/bin/cache/
-/bin/mingit/
-/dev/benchmarks/mega_gallery/
-/dev/bots/.recipe_deps
-/dev/bots/android_tools/
-/dev/docs/doc/
-/dev/docs/flutter.docs.zip
-/dev/docs/lib/
-/dev/docs/pubspec.yaml
-/packages/flutter/coverage/
-version
-
-# packages file containing multi-root paths
-.packages.generated
-
 # Flutter/Dart/Pub related
 **/doc/api/
 .dart_tool/
@@ -56,11 +25,7 @@ version
 .packages
 .pub-cache/
 .pub/
-build/
-flutter_*.png
-linked_*.ds
-unlinked.ds
-unlinked_spec.ds
+/build/
 
 # Android related
 **/android/**/gradle-wrapper.jar
@@ -70,8 +35,6 @@ unlinked_spec.ds
 **/android/gradlew.bat
 **/android/local.properties
 **/android/**/GeneratedPluginRegistrant.java
-**/android/key.properties
-*.jks
 
 # iOS/XCode related
 **/ios/**/*.mode1v3
@@ -98,9 +61,6 @@ unlinked_spec.ds
 **/ios/Flutter/flutter_assets/
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
-
-# Coverage
-coverage/
 
 # Exceptions to above rules.
 !**/ios/**/default.mode1v3
