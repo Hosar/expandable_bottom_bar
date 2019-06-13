@@ -50,13 +50,15 @@ const Duration expandDuration = const Duration(seconds: 1);
 ///       ),
 ///     )
 /// ```
-class ExpandableBottomBar extends StatefulWidget implements PreferredSizeWidget {
+class ExpandableBottomBar extends StatefulWidget
+    implements PreferredSizeWidget {
   final Widget barButtons;
   final Widget child;
   final Widget scaffoldChild;
   final double opacity;
   final bool stopOnDrag;
   final bool autoHide;
+  final Color color;
 
   ExpandableBottomBar(
       {Key key,
@@ -65,12 +67,14 @@ class ExpandableBottomBar extends StatefulWidget implements PreferredSizeWidget 
       this.scaffoldChild,
       this.opacity = 1.0,
       this.stopOnDrag = false,
-      this.autoHide = false}): super(key: key) {
-        assert(child != null);
-        if(child != null && scaffoldChild != null) {
-          throw 'Only child or scaffoldChild no both at same time';
-        }
-      }
+      this.autoHide = false,
+      this.color})
+      : super(key: key) {
+    assert(child != null);
+    if (child != null && scaffoldChild != null) {
+      throw 'Only child or scaffoldChild no both at same time';
+    }
+  }
 
   @override
   _ExpandableBottomBar createState() => _ExpandableBottomBar();
@@ -85,6 +89,7 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
   Animation<double> _animation;
   DraggingBloc _draggingBloc;
   HandlerHelper _handler;
+  double _halfScreen;
   double _topScreen;
 
   @override
@@ -102,7 +107,7 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
 
   @override
   Widget build(BuildContext context) {
-    var halfScreen = (MediaQuery.of(context).size.height / 2);
+    _halfScreen = (MediaQuery.of(context).size.height / 2);
     _topScreen = MediaQuery.of(context).size.height;
     _handler = HandlerHelper(
         animation: _animation,
@@ -123,26 +128,7 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
             _draggingBloc.verticalDragging.add(VerticalDrag(positionY: dy));
           },
           onVerticalDragEnd: (DragEndDetails details) {
-            if (widget.stopOnDrag) {
-              return;
-            }
-            double begin = _draggingBloc.position.animationHeight;
-
-            if (begin >= halfScreen) {
-              _animation = _handler.execute('animateToTheTop');
-            } else {
-              _animation = _handler.execute('animateToBegin');
-            }
-
-            _controller.forward();
-            void handler() {
-              {
-                onDragEnd(
-                    _animation, _draggingBloc, _controller, _topScreen, handler);
-              }
-            }
-
-            _animation.addListener(handler);
+            this.onVerticalDragEnd();
           },
           child: StreamBuilder<Position>(
               stream: _draggingBloc.currentPosition,
@@ -160,10 +146,47 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
                   child: widget.child,
                   barButtons: widget.barButtons,
                   onVerticalDragUpdate: this.onVerticalDragUpdate,
+                  animateToTop: this.animateToTop,
                   onDoubleTap: this.onDoubleTap,
+                  color: widget.color,
                 );
               })),
     );
+  }
+
+  void onVerticalDragEnd() {
+    if (widget.stopOnDrag) {
+      return;
+    }
+
+    double begin = _draggingBloc.position.animationHeight;
+
+    if (begin >= _halfScreen) {
+      _animation = _handler.execute('animateToTheTop');
+    } else {
+      _animation = _handler.execute('animateToBegin');
+    }
+
+    _controller.forward();
+    void handler() {
+      {
+        onDragEnd(_animation, _draggingBloc, _controller, _topScreen, handler);
+      }
+    }
+
+    _animation.addListener(handler);
+  }
+
+  void animateToTop() {
+    _animation = _handler.execute('animateToTheTop');
+    _controller.forward();
+    void handler() {
+      {
+        onDragEnd(_animation, _draggingBloc, _controller, _topScreen, handler);
+      }
+    }
+
+    _animation.addListener(handler);
   }
 
   void onVerticalDragUpdate(double dy) {
@@ -191,14 +214,6 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
       animation.removeListener(handler);
       return;
     }
-    if (controller.isAnimating &&
-        draggingBloc.position.animationHeight <= 50.0) {
-      controller.stop();
-      resetBehavior();
-      animation.removeListener(handler);
-      return;
-    }
-
     draggingBloc.verticalDragging.add(VerticalDrag(positionY: 5.0));
   }
 

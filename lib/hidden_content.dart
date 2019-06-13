@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/widgets.dart';
-
-import 'dragging_direction.dart';
 import 'model.dart';
 
 class HiddenContent extends StatefulWidget {
@@ -14,6 +12,8 @@ class HiddenContent extends StatefulWidget {
   final double bottomBarHeight;
   final ValueSetter<double> onVerticalDragUpdate;
   final VoidCallback onDoubleTap;
+  final VoidCallback animateToTop;
+  final Color color;
   const HiddenContent(
       {Key key,
       this.opacity,
@@ -23,7 +23,9 @@ class HiddenContent extends StatefulWidget {
       this.barButtons,
       this.bottomBarHeight,
       this.onVerticalDragUpdate,
-      this.onDoubleTap})
+      this.animateToTop,
+      this.onDoubleTap,
+      this.color})
       : super(key: key);
 
   @override
@@ -40,36 +42,40 @@ class _HiddenContentState extends State<HiddenContent> {
         ? this.widget.scaffoldChild
         : SingleChildScrollView(child: this.widget.child);
     return Container(
-      color: Colors.transparent,
+      color: widget.color,
       key: Key('draggingWidget'),
       child: Column(children: <Widget>[
-        Opacity(
-            opacity: this.widget.opacity == null ? 1.0 : this.widget.opacity,
-            child: GestureDetector(
-              child: Container(
-                constraints: BoxConstraints(minWidth: width),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                height: widget.animationHeight,
-                child: widgetToShow,
-              ),
-              onDoubleTap: () {
+
+        Container(
+          color: widget.color,
+          height: 25.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+            FloatingActionButton(
+              backgroundColor: widget.color,
+              onPressed: () {
+                print('----');
                 widget.onDoubleTap();
               },
-              onLongPressMoveUpdate: (LongPressMoveUpdateDetails details) {
-                var direction = getDraggingDirection(
-                    previousDy: previousDy, dy: details.offsetFromOrigin.dy);
-
-                if (direction == DraggingDirection.down) {
-                  var growFactor = -4 + (details.offsetFromOrigin.dy / 100);
-                  this.widget.onVerticalDragUpdate(growFactor);
-                } else {
-                  var growFactor = 4 + (details.offsetFromOrigin.dy / 100);
-                  this.widget.onVerticalDragUpdate(growFactor);
-                }
-                previousDy = details.offsetFromOrigin.dy;
-              },
+              child: Icon(Icons.close),
+            ),
+            FloatingActionButton(
+                backgroundColor: widget.color,
+                onPressed: () {
+                  widget.animateToTop();
+                },
+                child: Icon(Icons.open_in_browser))
+          ]),
+        ),
+        Opacity(
+            opacity: this.widget.opacity == null ? 1.0 : this.widget.opacity,
+            child: Container(
+              constraints: BoxConstraints(minWidth: width),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+              ),
+              height: widget.animationHeight,
+              child: widgetToShow,
             )),
         Container(
           height: widget.bottomBarHeight,

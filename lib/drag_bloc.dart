@@ -4,8 +4,6 @@ import 'package:expandable_bottom_bar/position_handlers.dart';
 
 import 'model.dart';
 
-
-
 class DraggingBloc {
   final bool autoHide;
   Position position;
@@ -78,12 +76,11 @@ class PositionActionsController {
   }
 
   execute() {
-    handlers.forEach((action) {
+    for (PositionActionsHandler action in handlers) {
       var res = action.handle();
       if (res) {
-        return;
+        break;
       }
-    });
+    }
   }
 }
-

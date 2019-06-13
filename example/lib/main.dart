@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.dark,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blue[400],
       ),
       body: Container(
         color: Colors.yellow[400],
@@ -48,6 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
         autoHide: false,
         stopOnDrag: false,
         child: SomeImage(),
+        color: Colors.green,
         barButtons: Container(
           color: Colors.pink,
           child: Row(
@@ -78,24 +79,26 @@ class SomeImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          constraints: BoxConstraints(maxHeight: 200),
-          child: Image.network(
-              'https://www.mascotarios.org/wp-content/gallery/sanbernardo/sanbernardo9.jpg'),
-        ),
-        Container(
-          color: Colors.blue[400],
-          child: Text('Main content', style: TextStyle(fontSize: 40)),
-        ),
-        RaisedButton(
-          child: Text('Press'),
-          onPressed: () {
-            print('done');
-          },
-        )
-      ],
+    return Container(
+      color: Colors.yellow[400],
+      child: Column(
+        children: <Widget>[
+          Container(
+            constraints: BoxConstraints(maxHeight: 200),
+            child: Image.network(
+                'https://www.mascotarios.org/wp-content/gallery/sanbernardo/sanbernardo9.jpg'),
+          ),
+          Container(
+            child: Text('Main content', style: TextStyle(fontSize: 40)),
+          ),
+          RaisedButton(
+            child: Text('Press'),
+            onPressed: () {
+              print('done');
+            },
+          )
+        ],
+      ),
     );
   }
 }
