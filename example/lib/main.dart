@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       bottomNavigationBar: ExpandableBottomBar(
         autoHide: false,
-        stopOnDrag: false,
+        stopOnDrag: true,
         child: SomeImage(),
         color: Colors.green,
         barButtons: Container(

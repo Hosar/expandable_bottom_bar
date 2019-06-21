@@ -149,9 +149,21 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
                   animateToTop: this.animateToTop,
                   onDoubleTap: this.onDoubleTap,
                   color: widget.color,
+                  showBar: shouldShowDraggingBar(widget.stopOnDrag, _animationHeight),
                 );
               })),
     );
+  }
+
+  bool shouldShowDraggingBar(bool stopOnDrag, double animationHeight) {
+    if (!stopOnDrag) {
+      return false;
+    }
+    if (animationHeight >= 10) {
+      return true;
+    }
+
+    return false;
   }
 
   void onVerticalDragEnd() {

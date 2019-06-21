@@ -14,19 +14,21 @@ class HiddenContent extends StatefulWidget {
   final VoidCallback onDoubleTap;
   final VoidCallback animateToTop;
   final Color color;
-  const HiddenContent(
-      {Key key,
-      this.opacity,
-      this.animationHeight,
-      this.scaffoldChild,
-      this.child,
-      this.barButtons,
-      this.bottomBarHeight,
-      this.onVerticalDragUpdate,
-      this.animateToTop,
-      this.onDoubleTap,
-      this.color})
-      : super(key: key);
+  final bool showBar;
+  const HiddenContent({
+    Key key,
+    this.opacity,
+    this.animationHeight,
+    this.scaffoldChild,
+    this.child,
+    this.barButtons,
+    this.bottomBarHeight,
+    this.onVerticalDragUpdate,
+    this.animateToTop,
+    this.onDoubleTap,
+    this.color,
+    this.showBar,
+  }) : super(key: key);
 
   @override
   _HiddenContentState createState() => _HiddenContentState();
@@ -45,27 +47,11 @@ class _HiddenContentState extends State<HiddenContent> {
       color: widget.color,
       key: Key('draggingWidget'),
       child: Column(children: <Widget>[
-
-        Container(
+        DraggingBar(
           color: widget.color,
-          height: 25.0,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
-            FloatingActionButton(
-              backgroundColor: widget.color,
-              onPressed: () {
-                print('----');
-                widget.onDoubleTap();
-              },
-              child: Icon(Icons.close),
-            ),
-            FloatingActionButton(
-                backgroundColor: widget.color,
-                onPressed: () {
-                  widget.animateToTop();
-                },
-                child: Icon(Icons.open_in_browser))
-          ]),
+          animateToTop: widget.animateToTop,
+          onDoubleTap: widget.onDoubleTap,
+          showBar: widget.showBar,
         ),
         Opacity(
             opacity: this.widget.opacity == null ? 1.0 : this.widget.opacity,
@@ -81,6 +67,49 @@ class _HiddenContentState extends State<HiddenContent> {
           height: widget.bottomBarHeight,
           child: this.widget.barButtons,
         )
+      ]),
+    );
+  }
+}
+
+class DraggingBar extends StatelessWidget {
+  final Color color;
+  final VoidCallback onDoubleTap;
+  final VoidCallback animateToTop;
+  final bool showBar;
+  const DraggingBar(
+      {Key key,
+      this.onDoubleTap,
+      this.animateToTop,
+      this.color,
+      this.showBar = false})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (!this.showBar) {
+      return Container(
+        color: this.color,
+        height: 0.0,
+      );
+    }
+    return Container(
+      color: this.color,
+      height: 25.0,
+      child: Row(mainAxisAlignment: MainAxisAlignment.end, children: <Widget>[
+        FloatingActionButton(
+          backgroundColor: this.color,
+          onPressed: () {
+            this.onDoubleTap();
+          },
+          child: Icon(Icons.close),
+        ),
+        FloatingActionButton(
+            backgroundColor: this.color,
+            onPressed: () {
+              this.animateToTop();
+            },
+            child: Icon(Icons.open_in_browser))
       ]),
     );
   }
