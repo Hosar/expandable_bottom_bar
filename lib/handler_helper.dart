@@ -24,11 +24,7 @@ class HandlerHelper {
       var fn = () {
         Animation<double> _animation;
         double begin = draggingBloc.position.animationHeight;
-        controller.duration = Duration(seconds: 2);
-        print(
-            'animateToTheTop  = $begin $topScreen ${controller.isAnimating} ${controller.isCompleted} ${controller.isDismissed}');
-        print(
-            'animateToTheTop  = $begin $topScreen ${controller.isAnimating} ${controller.isCompleted} ${controller.isDismissed}');
+        controller.duration = Duration(seconds: 1);
         _animation = Tween(begin: begin, end: topScreen).animate(controller);
         draggingBloc.draggingDirection.add(DraggingDirection.up);
 
@@ -40,7 +36,6 @@ class HandlerHelper {
       var fn = () {
         Animation<double> _animation;
         double begin = draggingBloc.position.animationHeight;
-        print('animateToBegin  = $begin $topScreen');
         controller.duration = Duration(milliseconds: 30);
         _animation = Tween(begin: begin, end: 50.0).animate(controller);
         draggingBloc.draggingDirection.add(DraggingDirection.down);

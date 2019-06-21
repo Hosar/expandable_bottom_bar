@@ -1,5 +1,6 @@
 library expandable_bottom_bar;
 
+import 'package:expandable_bottom_bar/app_context_values.dart';
 import 'package:expandable_bottom_bar/handler_helper.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
@@ -68,7 +69,7 @@ class ExpandableBottomBar extends StatefulWidget
       this.opacity = 1.0,
       this.stopOnDrag = false,
       this.autoHide = false,
-      this.color})
+      this.color,})
       : super(key: key) {
     assert(child != null);
     if (child != null && scaffoldChild != null) {
@@ -89,8 +90,7 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
   Animation<double> _animation;
   DraggingBloc _draggingBloc;
   HandlerHelper _handler;
-  double _halfScreen;
-  double _topScreen;
+  ContextValues _contextValues;
 
   @override
   void initState() {
@@ -107,13 +107,13 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
 
   @override
   Widget build(BuildContext context) {
-    _halfScreen = (MediaQuery.of(context).size.height / 2);
-    _topScreen = MediaQuery.of(context).size.height;
+    _contextValues = ContextValues(context);
+
     _handler = HandlerHelper(
         animation: _animation,
         controller: _controller,
         draggingBloc: _draggingBloc,
-        topScreen: _topScreen);
+        topScreen: _contextValues.topScreen);
     return SingleChildScrollView(
       child: GestureDetector(
           onVerticalDragUpdate: (DragUpdateDetails details) {
@@ -149,7 +149,7 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
                   animateToTop: this.animateToTop,
                   onDoubleTap: this.onDoubleTap,
                   color: widget.color,
-                  showBar: shouldShowDraggingBar(widget.stopOnDrag, _animationHeight),
+                  showBar: this.shouldShowDraggingBar(widget.stopOnDrag, _animationHeight),
                 );
               })),
     );
@@ -173,7 +173,7 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
 
     double begin = _draggingBloc.position.animationHeight;
 
-    if (begin >= _halfScreen) {
+    if (begin >= _contextValues.halfScreen) {
       _animation = _handler.execute('animateToTheTop');
     } else {
       _animation = _handler.execute('animateToBegin');
@@ -182,7 +182,7 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
     _controller.forward();
     void handler() {
       {
-        onDragEnd(_animation, _draggingBloc, _controller, _topScreen, handler);
+        onDragEnd(_animation, _draggingBloc, _controller, _contextValues.topScreen, handler);
       }
     }
 
@@ -192,9 +192,13 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
   void animateToTop() {
     _animation = _handler.execute('animateToTheTop');
     _controller.forward();
+    var topScreen = _contextValues.topScreen;
+    if(_contextValues.hasAppBar) {
+      topScreen = _contextValues.topScreen - 160;
+    }
     void handler() {
       {
-        onDragEnd(_animation, _draggingBloc, _controller, _topScreen, handler);
+        onDragEnd(_animation, _draggingBloc, _controller, topScreen, handler);
       }
     }
 
@@ -216,7 +220,6 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
       AnimationController controller, double topScreen, Function handler) {
     if (draggingBloc.position.animationHeight >= topScreen) {
       controller.stop();
-      draggingBloc.draggingDirection.add(DraggingDirection.none); // reset
       animation.removeListener(handler);
       return;
     }
@@ -234,7 +237,7 @@ class _ExpandableBottomBar extends State<ExpandableBottomBar>
     _controller.forward();
     void handler() {
       {
-        onDragEnd(_animation, _draggingBloc, _controller, _topScreen, handler);
+        onDragEnd(_animation, _draggingBloc, _controller, _contextValues.topScreen, handler);
       }
     }
 

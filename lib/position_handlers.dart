@@ -44,7 +44,6 @@ class DownHandler extends PositionActionsHandler {
   @override
   bool handle() {
     if (currentDirection == DraggingDirection.down) {
-      print('on DraggingDirection.DOWN');
       position.decrement(dragEvent.positionY);
       position.incrementBottomBar(autoHide);
       positionController.sink.add(position);
@@ -66,7 +65,6 @@ class DownManualHandler extends PositionActionsHandler {
   @override
   bool handle() {
     if (currentDirection == DraggingDirection.down_manual) {
-      print('on DraggingDirection.down_manual');
       position.decrementManual(dragEvent.positionY);
       position.incrementBottomBar(autoHide);
       positionController.sink.add(position);
@@ -88,7 +86,6 @@ class UpHandler extends PositionActionsHandler {
   @override
   bool handle() {
     if (currentDirection == DraggingDirection.up) {
-      print('on DraggingDirection.up');
       position.increment(dragEvent.positionY);
       position.decrementBottomBar(autoHide);
       positionController.sink.add(position);
@@ -110,7 +107,6 @@ class UpManualHandler extends PositionActionsHandler {
   @override
   bool handle() {
     if (currentDirection == DraggingDirection.up_manual) {
-      print('on DraggingDirection.up_manual');
       position.incrementManual(dragEvent.positionY);
       position.decrementBottomBar(autoHide);
       positionController.sink.add(position);
