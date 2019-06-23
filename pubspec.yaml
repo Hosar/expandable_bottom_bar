@@ -1,8 +1,8 @@
 name: expandable_bottom_bar
 description: A new flutter plugin project.
 version: 0.0.1
-author: Hosar
-homepage:
+author: hosarsiph.valle@gmail.com
+homepage: https://github.com/Hosar/expandable_bottom_bar
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
