@@ -12,7 +12,6 @@ void main() {
     draggingBloc.verticalDragging.add(VerticalDrag(positionY: 10));
 
     draggingBloc.currentPosition.listen((Position position) {
-      print(position);
       expect(position.bottomBarHeight, lessThan(defaultHeight));
     });
   });
@@ -94,7 +93,6 @@ void main() {
     var currentPosition = draggingBloc.currentPosition.skip(2);
 
     currentPosition.listen((Position position) {
-      print(position);
       expect(position.animationHeight, animationHeightEnd);
     });
   });
@@ -114,7 +112,6 @@ void main() {
     var currentPosition = draggingBloc.currentPosition.skip(2);
 
     currentPosition.listen((Position position) {
-      print(position);
       expect(position.animationHeight, animationHeightEnd);
     });
   });
