@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:expandable_bottom_bar/expandable_bottom_bar.dart';
+import 'package:expandable_app_bottom_bar/expandable_bottom_bar.dart';
 
 void main() {
   testWidgets('On init should not show the dragging widget',

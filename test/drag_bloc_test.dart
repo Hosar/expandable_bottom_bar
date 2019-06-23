@@ -1,5 +1,5 @@
-import 'package:expandable_bottom_bar/drag_bloc.dart';
-import 'package:expandable_bottom_bar/model.dart';
+import 'package:expandable_app_bottom_bar/drag_bloc.dart';
+import 'package:expandable_app_bottom_bar/model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

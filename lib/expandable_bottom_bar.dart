@@ -1,10 +1,10 @@
 library expandable_bottom_bar;
 
-import 'package:expandable_bottom_bar/app_context_values.dart';
-import 'package:expandable_bottom_bar/handler_helper.dart';
+import 'package:expandable_app_bottom_bar/app_context_values.dart';
+import 'package:expandable_app_bottom_bar/handler_helper.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/material.dart';
-import 'package:expandable_bottom_bar/drag_bloc.dart';
+import 'package:expandable_app_bottom_bar/drag_bloc.dart';
 
 import 'hidden_content.dart';
 import 'model.dart';

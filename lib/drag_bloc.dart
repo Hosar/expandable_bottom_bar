@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:expandable_bottom_bar/position_handlers.dart';
+import 'package:expandable_app_bottom_bar/position_handlers.dart';
 
 import 'model.dart';
 
