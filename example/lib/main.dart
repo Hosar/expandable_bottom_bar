@@ -32,21 +32,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  var heightFactor = 0.67;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         brightness: Brightness.dark,
-        backgroundColor: Colors.blue[400],
+        backgroundColor: Colors.pink,
       ),
       body: Container(
-        color: Colors.yellow[400],
+        color: Colors.white24,
       ),
       bottomNavigationBar: ExpandableBottomBar(
-        autoHide: false,
-        stopOnDrag: true,
+        autoHide: true,
+        stopOnDrag: false,
         child: SomeImage(),
         color: Colors.green,
         barButtons: Container(
