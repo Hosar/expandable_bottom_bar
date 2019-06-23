@@ -1,4 +1,4 @@
-import 'package:expandable_bottom_bar_example/second.dart';
+import './second.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
